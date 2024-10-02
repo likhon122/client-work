@@ -41,17 +41,17 @@ const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const userObj = await User.findOne({ where: { email } });
 
-    if (!user) {
+    if (!userObj) {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    if (!user.verified) {
+    if (!userObj.verified) {
       return res.status(400).json({ msg: "Please verify your account" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, userObj.password);
 
     if (!isMatch) {
       return res
@@ -59,13 +59,13 @@ const loginUser = async (req, res, next) => {
         .json({ msg: "Email or password is not matched!!" });
     }
 
-    createRefreshToken(res, { id: user.id, email: user.email });
+    createRefreshToken(res, { id: userObj.id, email: userObj.email });
 
-    const userObj = user.get();
+    const user = userObj.get();
 
-    delete userObj.password;
+    delete user.password;
 
-    res.status(200).json({ msg: "Logged in successfully", user: { userObj } });
+    res.status(200).json({ msg: "Logged in successfully", user });
   } catch (error) {
     next(error);
   }
