@@ -1,5 +1,5 @@
 // slices/userSlice.js
-
+import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ServerApi from "../api/serverApi";
 
@@ -8,15 +8,13 @@ export const fetchUserDetails = createAsyncThunk(
   "user/fetchUserDetails",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(ServerApi.verifyUser.url, {
-        method: ServerApi.verifyUser.method,
-        credentials: "include",
+      const response = await axios.get(ServerApi.verifyUser.url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      console.log(response)
-      const userData = await response.json();
+      const userData = response.data.user;
       if (userData.data === null) {
         return {};
       }
@@ -26,6 +24,8 @@ export const fetchUserDetails = createAsyncThunk(
     }
   }
 );
+
+
 
 // Initial state
 const initialState = {
@@ -52,7 +52,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserDetails.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.data;
+        state.user = action.payload;
       })
       .addCase(fetchUserDetails.rejected, (state, action) => {
         state.loading = false;

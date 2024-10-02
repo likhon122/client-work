@@ -29,7 +29,7 @@ const ServerApi = {
     method: "get",
   },
   logout: {
-    url: `${backendDomain}/auth/logout`,
+    url: `${backendDomain}/auth/log-out`,
     method: "get",
   },
 };

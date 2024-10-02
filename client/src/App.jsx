@@ -6,39 +6,47 @@ import { FaSpinner } from "react-icons/fa";
 import { fetchUserDetails } from "./store/userSlice";
 
 function App() {
-  const dispatch = useDispatch();
-  const { user, loading } = useSelector((state) => state.user);
-  const navigate = useNavigate();
-  const location = useLocation();
-  console.log(typeof location.pathname)
+    const dispatch = useDispatch();
+    const { user, loading } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  useEffect(() => {
-    /** Fetch user details */
-    const fetchData = async () => {
-      await dispatch(fetchUserDetails()).unwrap();
-    };
-    fetchData();
-  }, [dispatch, user]);
+    useEffect(() => {
+      /** Fetch user details only if not available */
+      if (!user) {
+        const fetchData = async () => {
+          try {
+            await dispatch(fetchUserDetails()).unwrap();
+          } catch (error) {
+            return;
+          }
+        };
+        fetchData();
+      }
+    }, [dispatch, user, navigate]);
 
-  useEffect(() => {
-    if (
-      !user &&
-      location.pathname !== "/login" &&
-      location.pathname !== "/sign-up" &&
-      location.pathname !== "/forgot-password" &&
-      !location.pathname.startsWith("/verify")
-    ) {
-      navigate("/login");
-    } 
-  }, [user, navigate, location.pathname]);
+    useEffect(() => {
+      /** Redirect if user is not authenticated and trying to access restricted pages */
+      if (
+        !user &&
+        !loading &&
+        location.pathname !== "/login" &&
+        location.pathname !== "/sign-up" &&
+        location.pathname !== "/forgot-password" &&
+        !location.pathname.startsWith("/reset-password") &&
+        !location.pathname.startsWith("/verify")
+      ) {
+        navigate("/login");
+      }
+    }, [user, loading, location.pathname, navigate]);
 
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  },[user, navigate]);
+    useEffect(() => {
+      /** Redirect to dashboard if user is authenticated */
+      if (user && location.pathname === "/login" && user.verified == true) {
+        navigate("/dashboard");
+      }
+    }, [user, location.pathname, navigate]);
   
-  console.log(loading);
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">

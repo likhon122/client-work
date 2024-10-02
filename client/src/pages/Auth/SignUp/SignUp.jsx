@@ -22,39 +22,60 @@ const SignUp = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+const validatePassword = (password) => {
+  // Regular expression for password validation
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (!passwordPattern.test(password)) {
+    setErrorMessage(
+      "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+    );
+    return false; // Password is invalid
+  }
+
+  return true; // Password is valid
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setErrorMessage(""); // Clear any previous error message
+  if (!validatePassword(formData.password)) {
+    return;
+  }
+
+  try {
+    setLoading(true);
+    const response = await axios.post(ServerApi.signUp.url, formData);
+    console.log(response);
+    setSuccessMessage(response.data.msg); // Set success message on successful registration
     setErrorMessage(""); // Clear any previous error message
-    try {
-      setLoading(true);
-      const response = await axios.post(ServerApi.signUp.url, formData);
-      console.log(response);
-      setSuccessMessage(response.data.msg); // Set success message on successful registration
-      setErrorMessage(""); // Clear any previous error message
-      setLoading(false);
+    setLoading(false);
 
-      setFormData({
-        email: "",
-        username: "",
-        password: "",
-      });
+    setFormData({
+      email: "",
+      username: "",
+      password: "",
+    });
 
-      if (response.status === 200) { 
-          navigate(`/verify/${formData.email}`)
-      }
-      
-    } catch (error) {
-       setLoading(false);
-      console.log(error)
-      if (error.response) {
-        setErrorMessage(error.response.data.errors[0].msg); // Set error message based on response from backend
-      } else {
-        setErrorMessage("An unexpected error occurred.");
-      }
-      setSuccessMessage(""); // Clear any previous success message
+    if (response.status === 200) {
+      navigate(`/verify/${formData.email}`);
     }
-  };
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+    if (error.response) {
+      if (error.response.status === 400) {
+        setErrorMessage(error.response.data.msg);
+        return;
+      }
+      setErrorMessage(error.response.data.errors[0].msg); // Set error message based on response from backend
+    } else {
+      setErrorMessage("An unexpected error occurred.");
+    }
+    setSuccessMessage(""); // Clear any previous success message
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

@@ -3,6 +3,7 @@ import { FaLock } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Added useNavigate
 import axios from "axios"; // Import axios for making HTTP requests
 import ServerApi from "../../../api/serverApi";
+import { FaSpinner } from "react-icons/fa";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
@@ -10,7 +11,8 @@ const VerifyOTP = () => {
   const [success, setSuccess] = useState(null); // State to hold success messages
   const navigate = useNavigate(); // Hook for navigation
   const { email } = useParams();
-console.log(email)
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setOtp(e.target.value);
   };
@@ -19,6 +21,11 @@ console.log(email)
     e.preventDefault();
     setError(null);
     setSuccess(null);
+
+    if (otp.length !== 6) {
+      setError("Invalid OTP, OTP must be 6 digits");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -34,15 +41,22 @@ console.log(email)
         }
       );
 
-
       // Handle successful verification
       setSuccess(response.data.msg);
-      // Redirect or perform additional actions if needed
-      navigate("/dashboard"); // Redirect to a success page (modify as needed)
+
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       // Handle errors from the backend
       console.log(err);
       if (err.response) {
+        if (err.response.data.errors && err.response.data.errors.length > 0) {
+          setError("Invalid OTP, OTP must be 6 digits");
+          return;
+        }
         if (err.response.status === 400) {
           setError(err.response.data.msg);
           return;
@@ -53,6 +67,21 @@ console.log(email)
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">
+          <div className="flex flex-col items-center space-y-4">
+            <FaSpinner className="animate-spin text-blue-500 text-6xl" />
+            <span className="text-gray-700 text-xl font-semibold">
+              Verification Successful Redirecting to login
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -71,7 +100,7 @@ console.log(email)
             <div className="flex items-center border rounded py-2 px-3 shadow">
               <FaLock className="text-gray-400 mr-2" />
               <input
-                type="text"
+                type="number"
                 id="otp"
                 name="otp"
                 value={otp}

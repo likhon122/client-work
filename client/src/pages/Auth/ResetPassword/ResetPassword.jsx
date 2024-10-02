@@ -1,24 +1,70 @@
 
+import axios from "axios";
 import { useState } from "react";
-import { FaLock, FaKey } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ServerApi from "../../../api/serverApi";
+import { FaKey, FaLock, FaSpinner } from "react-icons/fa";
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({
-    newPassword: "",
-    newCode: "",
+    password: "",
+    code: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [redirectingLoading, setRedirectingLoading] = useState(false);  
+  const navigate = useNavigate();
+  const { email } = useParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Reset Password Form data submitted: ", formData);
+    try {
+      setLoading(true);
+      formData.email = email;
+      await axios.post(ServerApi.resetPassword.url, formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      setFormData({
+        email: "",
+      });
+
+      setLoading(false);
+      setRedirectingLoading(true);
+      setTimeout(() => {
+       setRedirectingLoading(false);
+        navigate("/login");
+      }, 3000);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
+  if (redirectingLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">
+          <div className="flex flex-col items-center space-y-4">
+            <FaSpinner className="animate-spin text-blue-500 text-6xl" />
+            <span className="text-gray-700 text-xl font-semibold">
+              Verification Successful Redirecting to login
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
@@ -40,8 +86,8 @@ const ResetPassword = () => {
               <input
                 type="text"
                 id="newCode"
-                name="newCode"
-                value={formData.newCode}
+                name="code"
+                value={formData.code}
                 onChange={handleChange}
                 required
                 className="outline-none w-full"
@@ -63,8 +109,8 @@ const ResetPassword = () => {
               <input
                 type="password"
                 id="newPassword"
-                name="newPassword"
-                value={formData.newPassword}
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
                 required
                 className="outline-none w-full"
@@ -72,14 +118,13 @@ const ResetPassword = () => {
               />
             </div>
           </div>
-
           {/* Submit Button */}
           <div className="flex items-center justify-center">
             <button
               type="submit"
               className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
-              Reset Password
+              {loading ? "Resetting Password..." : "Reset Password"}
             </button>
           </div>
         </form>

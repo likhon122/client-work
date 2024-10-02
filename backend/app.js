@@ -1,14 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const sequelize = require("./database");
-const registerRoutes = require("./routes/register.route");
-const User = require("./models/User");
-const authRouter = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
+const registerRoutes = require("./routes/user.route");
+const authRouter = require("./routes/auth.route");
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
@@ -21,56 +20,10 @@ app.use(
 );
 
 app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true }));
 
-// Sync database
-sequelize
-  .sync()
-  .then(() => {
-    console.log("Database connected and synced.");
-  })
-  .catch((err) => {
-    console.error("Unable to sync database:", err);
-  });
 
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);
-
-app.get("/user/all-users", async (req, res, next) => {
-  // Add next parameter
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    next(error); // Pass error to error handler
-  }
-});
-
-app.delete("/user/delete-user/:id", async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-
-    if (!user) {
-      const error = new Error("User not found");
-      error.status = 404; // Set status for 404
-      return next(error); // Pass error to error handler
-    }
-
-    await user.destroy();
-    res.status(200).json({ msg: "User deleted" });
-  } catch (error) {
-    next(error); // Pass error to error handler
-  }
-});
-
-app.delete("/user/delete-all-users", async (req, res, next) => {
-  try {
-    await User.destroy({ where: {} });
-    res.status(200).json({ msg: "All users deleted" });
-  } catch (error) {
-    next(error); // Pass error to error handler
-  }
-});
 
 const errorHandler = (err, req, res, next) => {
   // Handle different types of errors
@@ -97,7 +50,4 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;

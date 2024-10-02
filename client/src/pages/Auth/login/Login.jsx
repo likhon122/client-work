@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios"; // Import Axios
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ServerApi from "../../../api/serverApi";
 import { useDispatch } from "react-redux";
 import { fetchUserDetails } from "../../../store/userSlice";
@@ -14,7 +14,6 @@ const Login = () => {
 
   const [error, setError] = useState(""); // State for error messages
   const [success, setSuccess] = useState(""); // State for success messages
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -22,10 +21,28 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validatePassword = (password) => {
+    // Regular expression for password validation
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+    if (!passwordPattern.test(password)) {
+      setError(
+        "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+      );
+      return false; 
+    }
+
+    return true; // Password is valid
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset any previous errors
     setSuccess(""); // Reset any previous success messages
+    if (!validatePassword(formData.password)) {
+      return;
+    }
 
     try {
       const response = await axios.post(ServerApi.login.url, formData, {
@@ -36,8 +53,6 @@ const Login = () => {
       });
       // If successful, you can set a success message or redirect the user
       setSuccess(response.data.msg);
-       navigate("/");
-
       dispatch(fetchUserDetails());
       // Optionally, redirect to a different page or perform any other actions
     } catch (error) {
