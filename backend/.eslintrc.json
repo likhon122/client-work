@@ -43,8 +43,7 @@
     "import/no-extraneous-dependencies": 0,
     "max-len": 0,
     "radix": 0,
-    "import/extensions": ["error", "always", { "ignorePackages": true }],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "import/extensions": "off"
+    "import/extensions": ["ignore", "always", { "ignorePackages": true }],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   }
 }

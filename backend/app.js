@@ -1,6 +1,6 @@
 const express = require("express");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
 const registerRoutes = require("./routes/user.route");
 const authRouter = require("./routes/auth.route");
 
@@ -9,6 +9,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ensure methods include OPTIONS
+  })
+);
+
+app.use(express.json()); // Parse JSON bodies
+
 
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);

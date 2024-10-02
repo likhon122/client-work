@@ -63,7 +63,7 @@ userRoute.post(
   resetPassword
 );
 
-userRoute.delete("/delete-user/:id", userIsLoggedIn, deleteSingleUser);
-userRoute.delete("/delete-all-users", userIsLoggedIn, deleteAllUsers);
+// userRoute.delete("/delete-user/:id", userIsLoggedIn, deleteSingleUser);
+// userRoute.delete("/delete-all-users", userIsLoggedIn, deleteAllUsers);
 
 module.exports = userRoute;
