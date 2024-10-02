@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const sequelize = require("./database");
 const registerRoutes = require("./routes/register.route");
 const User = require("./models/User");
@@ -8,8 +9,19 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(express.json());
-
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ensure methods include OPTIONS
+  })
+);
+
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true }));
 
 // Sync database
 sequelize

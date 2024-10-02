@@ -1,0 +1,119 @@
+import { useState } from "react";
+import { FaLock } from "react-icons/fa";
+import { Link, useNavigate, useParams } from "react-router-dom"; // Added useNavigate
+import axios from "axios"; // Import axios for making HTTP requests
+import ServerApi from "../../../api/serverApi";
+
+const VerifyOTP = () => {
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState(null); // State to hold error messages
+  const [success, setSuccess] = useState(null); // State to hold success messages
+  const navigate = useNavigate(); // Hook for navigation
+  const { email } = useParams();
+console.log(email)
+  const handleChange = (e) => {
+    setOtp(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const response = await axios.post(
+        ServerApi.verifyOtp.url,
+        {
+          email: email,
+          code: otp,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+
+      // Handle successful verification
+      setSuccess(response.data.msg);
+      // Redirect or perform additional actions if needed
+      navigate("/dashboard"); // Redirect to a success page (modify as needed)
+    } catch (err) {
+      // Handle errors from the backend
+      console.log(err);
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.msg);
+          return;
+        }
+        setError(err.response.data?.errors[0].msg);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
+        <h2 className="text-2xl font-bold text-center mb-6">Verify Your OTP</h2>
+
+        <form onSubmit={handleSubmit}>
+          {/* OTP Code */}
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="otp"
+            >
+              Enter OTP
+            </label>
+            <div className="flex items-center border rounded py-2 px-3 shadow">
+              <FaLock className="text-gray-400 mr-2" />
+              <input
+                type="text"
+                id="otp"
+                name="otp"
+                value={otp}
+                onChange={handleChange}
+                required
+                className="outline-none w-full"
+                placeholder="Enter your OTP code"
+              />
+            </div>
+          </div>
+
+          {/* Display error or success messages */}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {success && (
+            <p className="text-green-500 text-sm text-center">{success}</p>
+          )}
+
+          {/* Submit Button */}
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            >
+              Verify OTP
+            </button>
+          </div>
+        </form>
+
+        {/* Privacy Notice */}
+        <p className="text-xs text-gray-500 mt-6 text-center">
+          You must have cookies enabled to use this site. <br />
+          <Link to={"/verify"} className="underline">
+            View our Privacy Policy
+          </Link>{" "}
+          •{" "}
+          <Link to={"/verify"} className="underline">
+            Email Support
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default VerifyOTP;
