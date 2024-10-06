@@ -73,7 +73,11 @@ const loginUser = async (req, res, next) => {
 
 const logOutUser = async (req, res, next) => {
   try {
-    res.clearCookie("affiliate");
+    res.clearCookie("affiliate", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none"
+    });
     res.status(200).send({ msg: "Logged out successfully" });
   } catch (error) {
     next(error);
