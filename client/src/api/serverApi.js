@@ -1,4 +1,4 @@
-export const backendDomain = "http://localhost:5000";
+export const backendDomain = "https://client-work-6t1v.onrender.com";
 const ServerApi = {
   signUp: {
     url: `${backendDomain}/user/register`,
