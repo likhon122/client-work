@@ -23,9 +23,11 @@ app.use(
 
 app.use(express.json()); // Parse JSON bodies
 
-
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);
+app.use("/health",(req, res) => {
+  res.status(200).send({message: "Server is up and running"});
+});
 
 const errorHandler = (err, req, res, next) => {
   // Handle different types of errors

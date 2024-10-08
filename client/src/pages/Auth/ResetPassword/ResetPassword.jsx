@@ -11,8 +11,10 @@ const ResetPassword = () => {
     code: "",
   });
 
+  const [error, setError] = useState(""); // State for error messages
+  const [success, setSuccess] = useState(""); // State for success messages
   const [loading, setLoading] = useState(false);
-  const [redirectingLoading, setRedirectingLoading] = useState(false);  
+  const [redirectingLoading, setRedirectingLoading] = useState(false);
   const navigate = useNavigate();
   const { email } = useParams();
 
@@ -21,32 +23,60 @@ const ResetPassword = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+
+  const validatePassword = (password) => {
+    // Regular expression for password validation
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+    if (!passwordPattern.test(password)) {
+      setError(
+        "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+      );
+      return false;
+    }
+
+    return true; // Password is valid
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Reset any previous errors
+    setSuccess(""); // Reset any previous success messages
+    if (!validatePassword(formData.password)) {
+      return;
+    }
     try {
       setLoading(true);
       formData.email = email;
-      await axios.post(ServerApi.resetPassword.url, formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(ServerApi.resetPassword.url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       setFormData({
         email: "",
       });
 
       setLoading(false);
+      setSuccess(response.data.msg);
+      
       setRedirectingLoading(true);
       setTimeout(() => {
-       setRedirectingLoading(false);
+        setRedirectingLoading(false);
         navigate("/login");
       }, 3000);
     } catch (error) {
-      setLoading(false);
-      console.log(error);
+      if (error.response) {
+        // If the server responded with an error status
+        setLoading(false);
+        setError(error.response.data.msg);
+      } else {
+        // For unexpected errors
+        setError("An unexpected error occurred. Please try again.");
+      }
+      console.error(error);
     }
   };
 
@@ -57,21 +87,22 @@ const ResetPassword = () => {
           <div className="flex flex-col items-center space-y-4">
             <FaSpinner className="animate-spin text-blue-500 text-6xl" />
             <span className="text-gray-700 text-xl font-semibold">
-              Verification Successful Redirecting to login
+              Password Reset Successful Redirecting to login
             </span>
           </div>
         </div>
       </div>
     );
   }
-  
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
         <h2 className="text-2xl font-bold text-center mb-6">
           Reset Your Password
         </h2>
-
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {success && <p className="text-green-500 text-center">{success}</p>}
         <form onSubmit={handleSubmit}>
           {/* New Code */}
           <div className="mb-6">

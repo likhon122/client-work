@@ -10,8 +10,10 @@ const ForgetPassword = () => {
     email: "",
   });
 
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const [error, setError] = useState(""); // State for error messages
+  const [success, setSuccess] = useState(""); // State for success messages
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,10 +22,12 @@ const ForgetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError(""); 
+    setSuccess(""); 
+    
     try {
       setLoading(true);
-      const response = await axios.post(ServerApi.forgotPassword.url, formData,);
+      const response = await axios.post(ServerApi.forgotPassword.url, formData);
 
       console.log(response);
       setFormData({
@@ -31,11 +35,18 @@ const ForgetPassword = () => {
       });
 
       setLoading(false);
-
-     navigate(`/reset-password/${formData.email}`);
+      setSuccess(response.data.msg);
+      navigate(`/reset-password/${formData.email}`);
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+     if (error.response) {
+       // If the server responded with an error status
+       setLoading(false);
+       setError(error.response.data.msg);
+     } else {
+       // For unexpected errors
+       setError("An unexpected error occurred. Please try again.");
+     }
+     console.error(error);
     }
   };
 
@@ -43,7 +54,9 @@ const ForgetPassword = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
         <h2 className="text-2xl font-bold text-center mb-6">Forget Password</h2>
-
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {success && <p className="text-green-500 text-center">{success}</p>}
+        {/* Form */}
         <form onSubmit={handleSubmit}>
           {/* New Code */}
           <div className="mb-6">

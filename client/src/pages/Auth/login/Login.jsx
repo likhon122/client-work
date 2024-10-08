@@ -14,6 +14,8 @@ const Login = () => {
 
   const [error, setError] = useState(""); // State for error messages
   const [success, setSuccess] = useState(""); // State for success messages
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -45,12 +47,15 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       const response = await axios.post(ServerApi.login.url, formData, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
+      setLoading(false);
+
       // If successful, you can set a success message or redirect the user
       setSuccess(response.data.msg);
       dispatch(fetchUserDetails());
@@ -58,6 +63,7 @@ const Login = () => {
     } catch (error) {
       if (error.response) {
         // If the server responded with an error status
+        setLoading(false);
         setError(error.response.data.msg);
       } else {
         // For unexpected errors
@@ -128,7 +134,7 @@ const Login = () => {
               type="submit"
               className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
-              Login
+              {loading ? "Logging In..." : " Login"}
             </button>
           </div>
 
