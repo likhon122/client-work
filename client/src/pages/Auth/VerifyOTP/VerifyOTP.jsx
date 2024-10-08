@@ -11,7 +11,9 @@ const VerifyOTP = () => {
   const [success, setSuccess] = useState(null); // State to hold success messages
   const navigate = useNavigate(); // Hook for navigation
   const { email } = useParams();
+
   const [loading, setLoading] = useState(false);
+  const [redirectingLoading, setRedirectingLoading] = useState(false);
 
   const handleChange = (e) => {
     setOtp(e.target.value);
@@ -28,6 +30,7 @@ const VerifyOTP = () => {
     }
 
     try {
+      setLoading(true);
       const response = await axios.post(
         ServerApi.verifyOtp.url,
         {
@@ -42,16 +45,18 @@ const VerifyOTP = () => {
       );
 
       // Handle successful verification
+      setLoading(false);
       setSuccess(response.data.msg);
 
-      setLoading(true);
+      setRedirectingLoading(true);
       setTimeout(() => {
-        setLoading(false);
+        setRedirectingLoading(false);
         navigate("/login");
       }, 3000);
     } catch (err) {
       // Handle errors from the backend
       console.log(err);
+      setLoading(false);
       if (err.response) {
         if (err.response.data.errors && err.response.data.errors.length > 0) {
           setError("Invalid OTP, OTP must be 6 digits");
@@ -68,7 +73,7 @@ const VerifyOTP = () => {
     }
   };
 
-  if (loading) {
+  if (redirectingLoading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
         <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">

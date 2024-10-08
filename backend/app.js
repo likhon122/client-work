@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const registerRoutes = require("./routes/user.route");
 const authRouter = require("./routes/auth.route");
+const { frontend_url } = require("./secret");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      frontend_url,
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ensure methods include OPTIONS
@@ -23,6 +25,9 @@ app.use(express.json()); // Parse JSON bodies
 
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);
+app.use("/health",(req, res) => {
+  res.status(200).send({message: "Server is up and running"});
+});
 
 const errorHandler = (err, req, res, next) => {
   // Handle different types of errors

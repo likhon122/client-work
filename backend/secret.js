@@ -6,10 +6,12 @@ const smtpUserName = process.env.EMAIL_USER;
 const smtpPassword = process.env.EMAIL_PASS;
 
 const refreshTokenKey = process.env.REFRESH_TOKEN_KEY;
+const frontend_url = process.env.FRONTEND_URL;
 
 module.exports = {
   port,
   smtpUserName,
   smtpPassword,
-  refreshTokenKey
+  refreshTokenKey,
+  frontend_url
 };
