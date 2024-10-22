@@ -18,6 +18,7 @@ function App() {
           try {
             await dispatch(fetchUserDetails()).unwrap();
           } catch (error) {
+            console.error(error);
             return;
           }
         };
@@ -52,7 +53,7 @@ function App() {
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
         <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">
           <div className="flex flex-col items-center space-y-4">
-            <FaSpinner className="animate-spin text-blue-500 text-6xl" />
+            <FaSpinner className="animate-spin text-[#16ADA9] text-6xl" />
             <span className="text-gray-700 text-xl font-semibold">
               Loading...
             </span>

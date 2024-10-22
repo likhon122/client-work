@@ -25,23 +25,23 @@ const users = [
 
 
   return (
-    <div className="container mx-auto mt-10 p-5">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-5">
+    <div className="container mx-auto mt-4">
+      <h1 className="text-xl md:text-3xl font-bold text-center text-gray-700 mb-5">
         Referral Leader board
       </h1>
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+      <table className="min-w-full bg-white border border-gray-200 rounded-xl shadow-lg">
         <thead>
           <tr className="bg-gray-100 border-b border-gray-200">
-            <th className="py-3 px-5 text-left text-gray-600 font-semibold">
+            <th className="py-3 px-2 md:py-3 md:px-5 text-left text-gray-600 font-semibold">
               Rank
             </th>
-            <th className="py-3 px-5 text-left text-gray-600 font-semibold">
+            <th className="py-3 md:py-3 md:px-5 text-left text-gray-600 font-semibold">
               User
             </th>
-            <th className="py-3 px-5 text-left text-gray-600 font-semibold">
+            <th className="py-3 md:py-3 md:px-5 text-left text-gray-600 font-semibold">
               Referrals
             </th>
-            <th className="py-3 px-5 text-left text-gray-600 font-semibold">
+            <th className="py-3 md:py-3 md:px-5 text-left text-gray-600 font-semibold">
               Earnings
             </th>
           </tr>
@@ -49,10 +49,18 @@ const users = [
         <tbody>
           {users.map((user) => (
             <tr key={user.rank} className="border-b border-gray-200">
-              <td className="py-3 px-5 text-gray-700">{user.rank}</td>
-              <td className="py-3 px-5 text-gray-700">{user.name}</td>
-              <td className="py-3 px-5 text-gray-700">{user.referrals}</td>
-              <td className="py-3 px-5 text-gray-700">{user.earnings}</td>
+              <td className="py-3 px-2 md:py-3 md:px-5 text-gray-700">
+                {user.rank}
+              </td>
+              <td className="py-3 md:py-3 md:px-5 text-gray-700">
+                {user.name}
+              </td>
+              <td className=" py-3 md:py-3 md:px-5 text-gray-700">
+                {user.referrals}
+              </td>
+              <td className="py-3 md:py-3 md:px-5 text-gray-700">
+                {user.earnings}
+              </td>
             </tr>
           ))}
         </tbody>

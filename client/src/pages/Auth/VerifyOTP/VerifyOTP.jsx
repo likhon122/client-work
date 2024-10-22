@@ -78,7 +78,7 @@ const VerifyOTP = () => {
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
         <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">
           <div className="flex flex-col items-center space-y-4">
-            <FaSpinner className="animate-spin text-blue-500 text-6xl" />
+            <FaSpinner className="animate-spin text-[#16ADA9] text-6xl" />
             <span className="text-gray-700 text-xl font-semibold">
               Verification Successful Redirecting to login
             </span>
@@ -127,7 +127,7 @@ const VerifyOTP = () => {
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-[#16ADA9] hover:bg-[#00D4A2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
               Verify OTP
             </button>

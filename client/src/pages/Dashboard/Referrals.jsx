@@ -19,7 +19,7 @@ const Referrals = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg mt-5 shadow-lg">
+    <div className="bg-white p-1 md:p-6 rounded-lg mt-5 shadow-lg">
       {/* Header Section */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Your Referrals</h2>
@@ -42,7 +42,7 @@ const Referrals = () => {
         </div>
 
         {/* Referral Earnings */}
-        <div className="bg-[#056573] text-white rounded-lg p-4 flex items-center justify-between">
+        <div className="bg-[#16ADAB] text-white rounded-lg p-4 flex items-center justify-between">
           <div className="flex flex-col">
             <div className="flex items-center">
               <FaChartPie className="text-3xl mr-4" />
@@ -57,13 +57,12 @@ const Referrals = () => {
           <div className="flex flex-col">
             <div className="flex items-center">
               <FaLink className="text-xl mr-4" />
-              <h3 className="text-xl font-semibold">Your Referral Link</h3>
+              <h3 className="text-lg md:text-xl font-semibold">Your Referral Link</h3>
             </div>
-            <p className="text-sm">https://yourapp.com/referral/12345</p>
           </div>
           <button
             onClick={handleCopy}
-            className="bg-white text-[#707070] px-4 py-2 rounded-lg flex items-center"
+            className="bg-white text-[#707070] px-2 py-2 md:px-4 md:py-2 rounded-lg flex items-center"
           >
             {isCopied ? (
               <>
@@ -87,7 +86,7 @@ const Referrals = () => {
           <div className="overflow-hidden h-4 mb-4 text-xs flex rounded bg-gray-300">
             <div
               style={{ width: "75%" }}
-              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#056573]"
+              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#16ADAB]"
             ></div>
           </div>
           <p className="text-right text-sm font-semibold text-gray-700">
