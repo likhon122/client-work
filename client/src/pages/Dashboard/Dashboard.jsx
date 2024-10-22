@@ -53,7 +53,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
-        <div className="flex justify-between md:block w-full md:w-1/5 h-auto md:h-screen bg-[#056573] p-5">
+        <div className="fixed md:relative  flex justify-between md:block w-full md:w-1/5 h-[70px] md:h-screen bg-[#16ADAB] p-5 px-2 ">
           <h1 className="text-xl md:text-xl text-white font-bold mb-10">
             Affiliate Dashboard
           </h1>
@@ -130,8 +130,8 @@ const Dashboard = () => {
         </div>
 
         {/* Main Content */}
-        <div className="w-full max-h-[100vh] md:w-4/5 p-5 md:p-10 overflow-y-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <div className="w-full max-h-[100vh] md:w-4/5 p-2 md:p-10 overflow-y-auto">
+          <div className="flex flex-col mt-16 md:mt-0 md:flex-row justify-between items-start md:items-center">
             <h2 className="text-xl md:text-2xl font-semibold mb-4 md:mb-0">
               {user?.username}
             </h2>

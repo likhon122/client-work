@@ -132,7 +132,7 @@ const Login = () => {
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-[#16ADA9] hover:bg-[#00D4A2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
               {loading ? "Logging In..." : " Login"}
             </button>
@@ -152,7 +152,7 @@ const Login = () => {
           <div className="text-center mt-6">
             <p className="text-gray-600">
               Don’t have an account yet?{" "}
-              <Link to="/sign-up" className="text-purple-600 hover:underline">
+              <Link to="/sign-up" className="text-[#16ADA9] hover:underline">
                 Partner Sign Up
               </Link>
             </p>

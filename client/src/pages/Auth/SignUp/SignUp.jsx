@@ -164,20 +164,16 @@ const handleSubmit = async (e) => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-[#16ADA9] hover:bg-[#00D4A2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
-              {
-                loading
-                  ? "Signing Up..."
-                  : "Sign Up"
-              }
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           </div>
 
           <div className="text-center mt-6">
             <p className="text-gray-600">
               have an account?{" "}
-              <Link to="/login" className="text-purple-600 hover:underline">
+              <Link to="/login" className="text-[#16ADA9] hover:underline">
                 Partner Login
               </Link>
             </p>

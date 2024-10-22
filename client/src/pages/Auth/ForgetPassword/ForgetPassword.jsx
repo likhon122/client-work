@@ -85,7 +85,7 @@ const ForgetPassword = () => {
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-[#16ADA9] hover:bg-[#00D4A2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
               {loading ? "Sending OTP..." : "Send OTP"}
             </button>
