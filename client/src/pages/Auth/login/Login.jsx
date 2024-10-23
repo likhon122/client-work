@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ServerApi from "../../../api/serverApi";
 import { useDispatch } from "react-redux";
 import { fetchUserDetails } from "../../../store/userSlice";
+import { mainLogo } from "../../../assets";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -76,6 +77,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
+        <img src={mainLogo} alt="" className="w-1/3 mx-auto mb-8" />
         <h2 className="text-2xl font-bold text-center mb-6">Welcome Back!</h2>
 
         {error && <p className="text-red-500 text-center">{error}</p>}

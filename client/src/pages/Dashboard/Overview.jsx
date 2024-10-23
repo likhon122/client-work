@@ -1,10 +1,33 @@
+import { useState } from "react";
+import { locus, sreta } from "../../assets";
+
 function Overview() {
+  const [currentValue, setCurrentValue] = useState(384000);
+  const targetValue = 1200000;
+  const progressPercentage = ((currentValue / targetValue) * 100).toFixed(2);
+
+  const handleProgressChange = (e) => {
+    setCurrentValue(Number(e.target.value));
+  };
+
+  const [usdtValue, setUsdtValue] = useState(""); // State to store the input value
+
+  // Handle change for input
+  const handleInputChange = (e) => {
+    setUsdtValue(e.target.value);
+  };
+
+  // Handle the buy button click
+  const handleBuyClick = () => {
+    alert(`You are buying with ${usdtValue} USDT`);
+  };
+
   return (
     <>
       {/* Overview Section */}
       <div className="my-8">
         <h3 className="text-lg font-semibold">Overview</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           <div className="p-5 bg-[#16ADAB] rounded-lg shadow-lg">
             <h4 className="text-white">Account Balance</h4>
             <p className="text-2xl font-bold text-white">$30,659.45</p>
@@ -13,18 +36,98 @@ function Overview() {
             </a>
           </div>
           <div className="p-5 bg-[#3D3D3D] rounded-lg shadow-lg">
-            <h4 className="text-white">Pending</h4>
+            <h4 className="text-white">The total referral reward</h4>
             <p className="text-white text-2xl font-bold">-19,369.45</p>
             <a href="#" className="text-[#16ADAB]">
               View all
             </a>
           </div>
           <div className="p-5 bg-[#3D3D3D] rounded-lg shadow-lg">
-            <h4 className="text-white">Processed (Last 30 days)</h4>
+            <h4 className="text-white">Current membership level</h4>
             <p className="text-white text-2xl font-bold">$28,750.00</p>
             <a href="#" className="text-[#16ADAB]">
               View all
             </a>
+          </div>
+          <div className="bg-white shadow-md p-4 rounded-lg w-full max-w-md border border-gray-200">
+            <div className="flex justify-between items-center">
+              <h2 className="text-gray-600 font-semibold">
+                Progress {progressPercentage}%
+              </h2>
+            </div>
+
+            <div className="mt-2">
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-300 rounded-full h-3.5 mb-2 relative">
+                <div
+                  className="bg-green-500 h-3.5 rounded-full absolute top-0 left-0 "
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+                <input
+                  type="range"
+                  min="0"
+                  max={targetValue}
+                  value={currentValue}
+                  onChange={handleProgressChange}
+                  className="absolute top-[-8px] left-0 w-full opacity-0 cursor-pointer"
+                />
+              </div>
+
+              {/* Values */}
+              <div className="flex justify-between text-sm text-gray-700">
+                <span>{currentValue.toLocaleString()} USDT</span>
+                <span>{targetValue.toLocaleString()} USDT</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-200 shadow-md rounded-lg p-4 flex justify-between items-center w-full max-w-md">
+            {/* Left Section with Logos and Percentages */}
+            <div className="flex items-center">
+              {/* LOCUS Token */}
+              <div className="flex flex-col items-center mr-2">
+                <div className="text-sm text-gray-700 font-semibold">50%</div>
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center">
+                  {/* LOCUS Token Image (Replace with actual image if needed) */}
+                  <img src={locus} alt="$LOCUS" className="w-8 h-8" />
+                </div>
+                <span className="text-xs text-gray-500 mt-1">$LOCUS</span>
+              </div>
+
+              {/* Plus Sign */}
+              <span className="text-xl font-semibold text-gray-600 mx-2">
+                +
+              </span>
+
+              {/* CRETA Token */}
+              <div className="flex flex-col items-center ml-2">
+                <div className="text-sm text-gray-700 font-semibold">50%</div>
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center">
+                  {/* CRETA Token Image (Replace with actual image if needed) */}
+                  <img src={sreta} alt="$CRETA" className="w-8 h-8" />
+                </div>
+                <span className="text-xs text-gray-500 mt-1">$CRETA</span>
+              </div>
+            </div>
+
+            {/* Right Section with Input and Button */}
+            <div className="flex flex-col items-center">
+              {/* USDT Input Field */}
+              <input
+                type="number"
+                placeholder="USDT"
+                value={usdtValue}
+                onChange={handleInputChange}
+                className="w-28 sm:w-32 lg:w-44  bg-[#3D3D3D] text-white text-center font-bold px-3 py-2 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {/* Buy Button */}
+              <button
+                className="bg-yellow-500 text-black px-4 py-2 rounded-lg font-bold"
+                onClick={handleBuyClick}
+              >
+                BUY NOW
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -39,9 +142,15 @@ function Overview() {
                 <th className="py-[.1rem]  md:py-3 md:px-4 text-center md:text-left ">
                   Transaction
                 </th>
-                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">Amount</th>
-                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">Status</th>
-                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">Date</th>
+                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">
+                  Amount
+                </th>
+                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">
+                  Status
+                </th>
+                <th className="py-2 md:py-3 md:px-4 text-center md:text-left ">
+                  Date
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -81,4 +190,4 @@ function Overview() {
   );
 }
 
-export default Overview
+export default Overview;
