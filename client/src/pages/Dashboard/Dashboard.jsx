@@ -3,12 +3,18 @@ import { FaChartLine, FaRegCircleUser, FaUsers } from "react-icons/fa6";
 import Overview from "./Overview";
 import LeaderBoard from "./LeaderBoard";
 import { FaHome, FaSignOutAlt } from "react-icons/fa";
+import { RiLuggageDepositFill } from "react-icons/ri";
+import { BiMoneyWithdraw } from "react-icons/bi";
+import { MdCardMembership } from "react-icons/md";
 import Referrals from "./Referrals";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/userSlice";
 import axios from "axios";
 import ServerApi from "../../api/serverApi";
 import MembershipPlans from "./MembershipPlans";
+import { mainLogo } from "../../assets";
+import DepositForm from "./DepositForm";
+import WithdrawalForm from "./WithdrawalForm";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state?.user);
@@ -55,9 +61,14 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
         <div className="fixed md:relative  flex justify-between md:block w-full md:w-1/5 h-[70px] md:h-screen bg-[#16ADAB] p-5 px-2 ">
-          <h1 className="text-xl md:text-xl text-white font-bold mb-10">
-            Affiliate Dashboard
-          </h1>
+          <div className="flex flex-row md:flex-col justify-center items-center">
+            <div className="bg-[#3D3D3D] rounded-lg w-10 h-10 md:w-20 md:h-20">
+              <img src={mainLogo} alt="" className="" />
+            </div>
+            <h1 className="text-xl md:text-xl text-white font-bold md:mb-4 ml-4 md:ml-0">
+              Affiliate Dashboard
+            </h1>
+          </div>
           <nav className="hidden md:block">
             <ul className="space-y-5">
               <li
@@ -67,6 +78,14 @@ const Dashboard = () => {
                 } text-white cursor-pointer font-semibold duration-300 hover:bg-[#3D3D3D] p-2 rounded-lg`}
               >
                 <FaHome className="inline-block mr-2" /> Overview
+              </li>
+              <li
+                onClick={() => handleLinkClick("Deposit")}
+                className={`${
+                  selectedComponent === "Deposit" && "bg-[#3D3D3D] text-white"
+                } text-white cursor-pointer font-semibold duration-300 hover:bg-[#3D3D3D] p-2 rounded-lg`}
+              >
+                <RiLuggageDepositFill className="inline-block mr-2" /> Deposit
               </li>
               <li
                 onClick={() => handleLinkClick("LeaderBoard")}
@@ -92,7 +111,15 @@ const Dashboard = () => {
                   "bg-[#3D3D3D] text-white"
                 } text-white cursor-pointer font-semibold duration-300 hover:bg-[#3D3D3D] p-2 rounded-lg`}
               >
-                <FaUsers className="inline-block mr-2" /> Membership
+                <MdCardMembership className="inline-block mr-2" /> Membership
+              </li>
+              <li
+                onClick={() => handleLinkClick("Withdraw")}
+                className={`${
+                  selectedComponent === "Withdraw" && "bg-[#3D3D3D] text-white"
+                } text-white cursor-pointer font-semibold duration-300 hover:bg-[#3D3D3D] p-2 rounded-lg`}
+              >
+                <BiMoneyWithdraw className="inline-block mr-2" /> Withdraw
               </li>
             </ul>
           </nav>
@@ -119,6 +146,13 @@ const Dashboard = () => {
                   </li>
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("Deposit")}
+                  >
+                    <RiLuggageDepositFill className="inline-block mr-2" />{" "}
+                    Deposit
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleLinkClick("LeaderBoard")}
                   >
                     <FaChartLine className="inline-block mr-2" /> Leader Board
@@ -133,7 +167,14 @@ const Dashboard = () => {
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleLinkClick("Membership")}
                   >
-                    <FaUsers className="inline-block mr-2" /> Membership
+                    <MdCardMembership className="inline-block mr-2" />{" "}
+                    Membership
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("Withdraw")}
+                  >
+                    <BiMoneyWithdraw className="inline-block mr-2" /> Withdraw
                   </li>
                   <li
                     onClick={handleLogout}
@@ -187,6 +228,8 @@ const Dashboard = () => {
 
           {/* Dynamic Component Rendering */}
           {selectedComponent === "Overview" && <Overview />}
+          {selectedComponent === "Deposit" && <DepositForm />}
+          {selectedComponent === "Withdraw" && <WithdrawalForm />}
           {selectedComponent === "LeaderBoard" && <LeaderBoard />}
           {selectedComponent === "Referrals" && <Referrals />}
           {selectedComponent === "Membership" && (
