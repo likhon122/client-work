@@ -37,17 +37,15 @@ function Overview() {
           </div>
           <div className="p-5 bg-[#3D3D3D] rounded-lg shadow-lg">
             <h4 className="text-white">The total referral reward</h4>
-            <p className="text-white text-2xl font-bold">-19,369.45</p>
+            <p className="text-white text-2xl font-bold">19,369.45</p>
             <a href="#" className="text-[#16ADAB]">
               View all
             </a>
           </div>
           <div className="p-5 bg-[#3D3D3D] rounded-lg shadow-lg">
-            <h4 className="text-white">Current membership level</h4>
-            <p className="text-white text-2xl font-bold">$28,750.00</p>
-            <a href="#" className="text-[#16ADAB]">
-              View all
-            </a>
+            <h4 className="text-white">Current memebership level</h4>
+            <p className="text-white text-2xl font-bold">Free</p>
+            
           </div>
           <div className="bg-white shadow-md p-4 rounded-lg w-full max-w-md border border-gray-200">
             <div className="flex justify-between items-center">
@@ -118,7 +116,7 @@ function Overview() {
                 placeholder="USDT"
                 value={usdtValue}
                 onChange={handleInputChange}
-                className="w-28 sm:w-32 lg:w-44  bg-[#3D3D3D] text-white text-center font-bold px-3 py-2 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-28 sm:w-32   bg-[#3D3D3D] text-white text-center font-bold px-3 py-2 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {/* Buy Button */}
               <button
@@ -165,7 +163,7 @@ function Overview() {
                   Success
                 </td>
                 <td className="py-2 md:py-3 md:px-4 text-[.7rem] md:text-base  text-center md:text-left">
-                  May 5, 2020
+                  October 23, 2024
                 </td>
               </tr>
               <tr className="border-t">
@@ -179,7 +177,7 @@ function Overview() {
                   Processing
                 </td>
                 <td className="py-2 md:py-3 md:px-4 text-[.7rem] md:text-base text-center  md:text-left">
-                  April 28, 2020
+                  October 23, 2024
                 </td>
               </tr>
             </tbody>
