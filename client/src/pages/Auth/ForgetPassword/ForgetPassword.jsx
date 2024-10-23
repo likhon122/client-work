@@ -4,6 +4,7 @@ import { AiOutlineMail } from "react-icons/ai";
 
 import { Link, useNavigate } from "react-router-dom";
 import ServerApi from "../../../api/serverApi";
+import { mainLogo } from "../../../assets";
 
 const ForgetPassword = () => {
   const [formData, setFormData] = useState({
@@ -53,6 +54,7 @@ const ForgetPassword = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
+        <img src={mainLogo} alt="" className="w-1/3 mx-auto mb-8" />
         <h2 className="text-2xl font-bold text-center mb-6">Forget Password</h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
         {success && <p className="text-green-500 text-center">{success}</p>}

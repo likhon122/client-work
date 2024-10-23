@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { FaUserFriends } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import Axios
 import ServerApi from "../../../api/serverApi";
+import { mainLogo } from "../../../assets";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -80,6 +82,7 @@ const handleSubmit = async (e) => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
+        <img src={mainLogo} alt="" className="w-1/3 mx-auto mb-8" />
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
         {errorMessage && (
           <p className="text-red-500 text-center">{errorMessage}</p>
@@ -155,6 +158,27 @@ const handleSubmit = async (e) => {
                 required
                 className="w-full outline-none text-gray-700"
                 placeholder="Enter a strong password"
+              />
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="referralCode"
+            >
+              Referral Code (optional)
+            </label>
+            <div className="flex items-center border rounded w-full py-2 px-3 shadow focus-within:ring-2 focus-within:ring-purple-500">
+              <FaUserFriends className="text-gray-500 mr-2" />
+              <input
+                type="referralCode"
+                id="referralCode"
+                name="referralCode"
+                onChange={handleChange}
+                required
+                className="w-full outline-none text-gray-700"
+                placeholder="Enter Referral Code"
               />
             </div>
           </div>

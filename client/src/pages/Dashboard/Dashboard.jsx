@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/userSlice";
 import axios from "axios";
 import ServerApi from "../../api/serverApi";
+import MembershipPlans from "./MembershipPlans";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state?.user);
@@ -84,48 +85,65 @@ const Dashboard = () => {
               >
                 <FaUsers className="inline-block mr-2" /> Referrals
               </li>
+              <li
+                onClick={() => handleLinkClick("Membership")}
+                className={`${
+                  selectedComponent === "Membership" &&
+                  "bg-[#3D3D3D] text-white"
+                } text-white cursor-pointer font-semibold duration-300 hover:bg-[#3D3D3D] p-2 rounded-lg`}
+              >
+                <FaUsers className="inline-block mr-2" /> Membership
+              </li>
             </ul>
           </nav>
-          <div className="block md:hidden relative">
-            <button
-              className="bg-gray-500 text-white rounded-full h-10 w-10 flex items-center justify-center"
-              onClick={handleDropdown}
-            >
-              <FaRegCircleUser />
-            </button>
-
-            {/* Dropdown Menu (visible on mobile) */}
-            {dropdownOpen && (
-              <ul
-                ref={dropdownRef}
-                className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg text-black"
+          <div className="block md:hidden  z-50">
+            <div className="relative">
+              <button
+                className="bg-gray-500 text-white rounded-full h-10 w-10 flex items-center justify-center"
+                onClick={handleDropdown}
               >
-                <li
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleLinkClick("Overview")}
+                <FaRegCircleUser />
+              </button>
+
+              {/* Dropdown Menu (visible on mobile) */}
+              {dropdownOpen && (
+                <ul
+                  ref={dropdownRef}
+                  className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg text-black "
                 >
-                  <FaHome className="inline-block mr-2" /> Overview
-                </li>
-                <li
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleLinkClick("LeaderBoard")}
-                >
-                  <FaChartLine className="inline-block mr-2" /> Leader Board
-                </li>
-                <li
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleLinkClick("Referrals")}
-                >
-                  <FaUsers className="inline-block mr-2" /> Referrals
-                </li>
-                <li
-                  onClick={handleLogout}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  <FaSignOutAlt className="inline-block mr-2" /> Logout
-                </li>
-              </ul>
-            )}
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("Overview")}
+                  >
+                    <FaHome className="inline-block mr-2" /> Overview
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("LeaderBoard")}
+                  >
+                    <FaChartLine className="inline-block mr-2" /> Leader Board
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("Referrals")}
+                  >
+                    <FaUsers className="inline-block mr-2" /> Referrals
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleLinkClick("Membership")}
+                  >
+                    <FaUsers className="inline-block mr-2" /> Membership
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    <FaSignOutAlt className="inline-block mr-2" /> Logout
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
         </div>
 
@@ -171,6 +189,9 @@ const Dashboard = () => {
           {selectedComponent === "Overview" && <Overview />}
           {selectedComponent === "LeaderBoard" && <LeaderBoard />}
           {selectedComponent === "Referrals" && <Referrals />}
+          {selectedComponent === "Membership" && (
+            <MembershipPlans setPage={handleLinkClick} />
+          )}
         </div>
       </div>
     </div>

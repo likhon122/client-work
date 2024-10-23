@@ -4,6 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom"; // Added useNav
 import axios from "axios"; // Import axios for making HTTP requests
 import ServerApi from "../../../api/serverApi";
 import { FaSpinner } from "react-icons/fa";
+import { mainLogo } from "../../../assets";
+
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
@@ -91,6 +93,7 @@ const VerifyOTP = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/4 lg:w-1/3">
+        <img src={mainLogo} alt="" className="w-1/3 mx-auto mb-8" />
         <h2 className="text-2xl font-bold text-center mb-6">Verify Your OTP</h2>
 
         <form onSubmit={handleSubmit}>
