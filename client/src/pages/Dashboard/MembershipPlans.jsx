@@ -1,5 +1,5 @@
 import { FaRocket, FaBriefcase, FaMedal, FaTruck } from "react-icons/fa";
-import MembershipCard from "./MemberShipCard";
+import MembershipCard from "./MembershipCard";
 
 const plans = [
   {
