@@ -8,6 +8,7 @@ const {
   forgotPasswordValidation,
   resetPasswordValidation
 } = require("../validation/userValidation");
+
 const { runValidation } = require("../validation/validation");
 const {
   registerUser,

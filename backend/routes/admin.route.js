@@ -14,7 +14,6 @@ adminRouter.post(
   "/change-admin",
   userIsLoggedIn,
   checkAdmin,
-
   changeAdmin
 );
 
