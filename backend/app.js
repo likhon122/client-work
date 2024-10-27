@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const registerRoutes = require("./routes/user.route");
+const priceRouter = require("./routes/price.route");
 const authRouter = require("./routes/auth.route");
 const { frontend_url } = require("./secret");
 const adminRouter = require("./routes/admin.route");
@@ -29,6 +30,7 @@ app.use(express.json()); // Parse JSON bodies
 
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);
+app.use("/price", priceRouter);
 app.use("/admin", adminRouter);
 app.use("/withdraw", withdrawRouter);
 app.use("/health", (req, res) => {
