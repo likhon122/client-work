@@ -17,9 +17,12 @@ const {
   resetPassword,
   getAllUsers,
   deleteSingleUser,
-  deleteAllUsers
+  deleteAllUsers,
+  getSingleUser
 } = require("../controllers/user.controller");
 const { userIsLoggedIn, userIsLoggedOut } = require("../middlewares/auth");
+
+userRoute.get("/get-user", userIsLoggedIn, getSingleUser);
 
 userRoute.get("/all-users", userIsLoggedIn, getAllUsers);
 

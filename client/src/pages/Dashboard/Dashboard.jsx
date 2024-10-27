@@ -15,6 +15,9 @@ import MembershipPlans from "./MembershipPlans";
 import { mainLogo } from "../../assets";
 import DepositForm from "./DepositForm";
 import WithdrawalForm from "./WithdrawalForm";
+import { RiAdminFill } from "react-icons/ri";
+
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state?.user);
@@ -49,7 +52,7 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await axios.get(ServerApi.logout.url, {
-        withCredentials: true,
+        withCredentials: true
       });
       dispatch(logout());
     } catch (error) {
@@ -182,6 +185,15 @@ const Dashboard = () => {
                   >
                     <FaSignOutAlt className="inline-block mr-2" /> Logout
                   </li>
+                  {user?.isAdmin && (
+                    <Link
+                      to={"/admin"}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      <RiAdminFill className="inline-block mr-2" /> Admin
+                      DashBoard
+                    </Link>
+                  )}
                 </ul>
               )}
             </div>
@@ -220,6 +232,16 @@ const Dashboard = () => {
                     >
                       <FaSignOutAlt className="inline-block mr-2" /> Logout
                     </li>
+
+                    {user?.isAdmin && (
+                      <Link
+                        to={"/admin"}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        <RiAdminFill className="inline-block mr-2" /> Admin
+                        DashBoard
+                      </Link>
+                    )}
                   </ul>
                 )}
               </div>

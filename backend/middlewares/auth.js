@@ -1,4 +1,5 @@
 const { verifyJsonWebToken } = require("../helper/jsonWebToken");
+const User = require("../models/User");
 const { refreshTokenKey } = require("../secret");
 
 const userIsLoggedIn = async (req, res, next) => {
@@ -48,4 +49,36 @@ const userIsLoggedOut = async (req, res, next) => {
   }
 };
 
-module.exports = { userIsLoggedIn, userIsLoggedOut };
+const checkAdmin = async (req, res, next) => {
+  try {
+    const affiliate = req.cookies?.affiliate;
+
+    if (!affiliate) {
+      return res
+        .status(401)
+        .send({ msg: "You are already logged out. Please login first." });
+    }
+
+    const userInfo = verifyJsonWebToken(affiliate, refreshTokenKey);
+
+    if (!userInfo) {
+      return res.status(401).send({
+        msg: "Token verification failed! Please logOut and login again!!"
+      });
+    }
+
+    const user = await User.findOne({ where: { email: userInfo.email } });
+
+    if (!user.isAdmin) {
+      console.log("first");
+      return res.status(401).json({
+        message: "Unauthorized Access"
+      });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { userIsLoggedIn, userIsLoggedOut, checkAdmin };

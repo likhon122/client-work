@@ -29,6 +29,10 @@ const User = sequelize.define("User", {
   lastResendTime: {
     type: DataTypes.DATE,
     allowNull: true
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

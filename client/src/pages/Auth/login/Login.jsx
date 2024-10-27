@@ -68,6 +68,7 @@ const Login = () => {
         setError(error.response.data.msg);
       } else {
         // For unexpected errors
+        setLoading(false);
         setError("An unexpected error occurred. Please try again.");
       }
       console.error(error);
