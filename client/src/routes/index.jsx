@@ -9,7 +9,7 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import VerifyOTP from "../pages/Auth/VerifyOTP/VerifyOTP";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ForgetPassword from "../pages/Auth/ForgetPassword/ForgetPassword";
-
+import Admin from "../pages/Auth/admin/Admin";
 
 const router = createBrowserRouter([
   {
@@ -18,34 +18,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <Dashboard />
       },
       {
         path: "login",
-        element: <Login />,
+        element: <Login />
       },
       {
         path: "forgot-password",
-        element: <ForgetPassword />,
+        element: <ForgetPassword />
       },
       {
         path: "reset-password/:email",
-        element: <ResetPassword />,
+        element: <ResetPassword />
       },
       {
         path: "sign-up",
-        element: <SignUp />,
+        element: <SignUp />
       },
       {
         path: "verify/:email",
-        element: <VerifyOTP />,
+        element: <VerifyOTP />
       },
-    ],
+      {
+        path: "admin",
+        element: <Admin />
+      }
+    ]
   },
   {
     path: "*",
-    element: <NotFound />,
-  },
+    element: <NotFound />
+  }
 ]);
 
 export default router;

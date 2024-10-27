@@ -12,6 +12,29 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getSingleUser = async (req, res, next) => {
+  try {
+    console.log(req.email);
+    const userEmail = req.email;
+
+    if (!userEmail) {
+      return res.status(401).json({ msg: "You are not authenticated!!" });
+    }
+
+    const user = await User.findOne({ where: { email: userEmail } });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    delete user.dataValues.password;
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deleteSingleUser = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -239,5 +262,6 @@ module.exports = {
   resetPassword,
   getAllUsers,
   deleteSingleUser,
-  deleteAllUsers
+  deleteAllUsers,
+  getSingleUser
 };

@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const registerRoutes = require("./routes/user.route");
 const authRouter = require("./routes/auth.route");
 const { frontend_url } = require("./secret");
+const adminRouter = require("./routes/admin.route");
+const withdrawRouter = require("./routes/withdraw.route");
 
 const app = express();
 
@@ -12,13 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5175",
-      frontend_url,
-    ],
+    origin: ["http://localhost:5173", "http://localhost:5175", frontend_url],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ensure methods include OPTIONS
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] // Ensure methods include OPTIONS
   })
 );
 
@@ -26,8 +24,10 @@ app.use(express.json()); // Parse JSON bodies
 
 app.use("/user", registerRoutes);
 app.use("/auth", authRouter);
-app.use("/health",(req, res) => {
-  res.status(200).send({message: "Server is up and running"});
+app.use("/admin", adminRouter);
+app.use("/withdraw", withdrawRouter);
+app.use("/health", (req, res) => {
+  res.status(200).send({ message: "Server is up and running" });
 });
 
 const errorHandler = (err, req, res, next) => {

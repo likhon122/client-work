@@ -3,36 +3,52 @@ export const backendDomain = "https://client-work-7s2u.onrender.com";
 const ServerApi = {
   signUp: {
     url: `${backendDomain}/user/register`,
-    method: "post",
+    method: "post"
   },
   verifyOtp: {
     url: `${backendDomain}/user/verify`,
-    method: "post",
+    method: "post"
   },
   resendCode: {
     url: `${backendDomain}/user/resend-code`,
-    method: "post",
+    method: "post"
   },
   forgotPassword: {
     url: `${backendDomain}/user/forgot-password`,
-    method: "post",
+    method: "post"
   },
   resetPassword: {
     url: `${backendDomain}/user/reset-password`,
-    method: "post",
+    method: "post"
   },
   login: {
     url: `${backendDomain}/auth/login`,
-    method: "post",
+    method: "post"
   },
   verifyUser: {
     url: `${backendDomain}/auth/verify-user`,
-    method: "get",
+    method: "get"
   },
   logout: {
     url: `${backendDomain}/auth/log-out`,
-    method: "get",
+    method: "get"
   },
+  getUser: {
+    url: `${backendDomain}/user/get-user`,
+    method: "get"
+  },
+  makeWithdrawal: {
+    url: `${backendDomain}/withdraw`,
+    method: "post"
+  },
+  getWithdrawalsDetails: {
+    url: `${backendDomain}/admin/get-withdrawals`,
+    method: "post"
+  },
+  addAdmin: {
+    url: `${backendDomain}/admin/change-admin`,
+    method: "post"
+  }
 };
 
 export default ServerApi;
