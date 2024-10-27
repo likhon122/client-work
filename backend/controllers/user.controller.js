@@ -86,21 +86,42 @@ const registerUser = async (req, res, next) => {
 
     const emailData = {
       email,
-      subject: "Account activation email",
+      subject: "Welcome to Profit Link - Start Earning Today!",
       html: `
-       <h2>Hi ${username} !</h2>
-    <p>
-      You trying to create an account on our app. You only create this
-      account to verify your account. So you verify your account! Please enter this code in verification code field.
-    </p>
-    <div style="padding: 10px 0px">
-      <h3 style="color: #333; font-size: 24px; text-align: center">
-        ${verificationCode}
-      </h3>
-      >
+    <div style="font-family: 'Lemonada', Arial, sans-serif; background-color: #f0f4f8; color: #333; padding: 40px 20px; border-radius: 10px; max-width: 600px; margin: auto;">
+      <div style="text-align: center; padding-bottom: 20px;">
+        <img src="https://i.ibb.co.com/cJvmZL6/Screenshot-2024-10-26-at-2-27-28-PM-removebg-preview-1.png" alt="Profit Link" style="width: 150px;"/>
+      </div>
+      <h2 style="color: #02C2A7; text-align: center; font-size: 28px;">Welcome, ${username}!</h2>
+      
+      <p style="font-size: 18px; line-height: 1.6; text-align: center; margin: 20px 0;">
+        Congratulations! 🎉 You’re now part of Profit Link, where your money can grow while you relax! Get ready to unlock exciting earning opportunities and maximize your rewards through our referral program.
+      </p>
+      
+      <div style="padding: 20px; background-color: #fff; border: 2px solid #02C2A7; border-radius: 8px; margin: 20px auto; max-width: 500px; text-align: center;">
+        <h3 style="color: #02C2A7; font-size: 24px; margin-bottom: 10px;">Verify Your Email</h3>
+        <p style="font-size: 16px; color: #666;">To complete your registration, please enter the code below:</p>
+        <div style="padding: 15px 0; margin: 10px 0;">
+          <h3 style="color: #02C2A7; font-size: 32px; margin: 0; font-weight: bold; letter-spacing: 2px;">${verificationCode}</h3>
+        </div>
+      </div>
+      
+      <p style="font-size: 18px; text-align: center; line-height: 1.6; margin: 20px 0;">
+        To kick things off, please verify your email and activate your account. Let’s embark on this profitable journey together!
+      </p>
+
+      <div style="text-align: center; padding-top: 20px;">
+        <p style="font-size: 16px; color: #999;">Cheers to your success,</p>
+        <h3 style="color: #02C2A7; font-weight: bold; font-size: 24px; margin: 10px 0;">The Profit Link Team</h3>
+      </div>
+      <div style="text-align: center; padding-top: 30px;">
+        <p style="font-size: 12px; color: #aaa;">© 2024 Profit Link. All rights reserved.</p>
+      </div>
     </div>
-      `
+  `,
     };
+
+
 
     // Send verification email
     await sendVerificationEmail(emailData);
@@ -205,18 +226,42 @@ const forgotPassword = async (req, res, next) => {
 
     const emailData = {
       email,
-      subject: "Forgot password email",
+      subject: "Reset Your Password - Let’s Get You Back on Track!",
       html: `
-      <h2>Hi ${user.username} !</h2>
-      <p>
-        You requested a password reset. Please enter the following code in the reset password form.
-      </p>
-      <div style="padding: 10px 0px">
-        <h3 style="color: #333; font-size: 24px; text-align: center">
-          ${resetCode}
-        </h3>
+      <div style="font-family: 'Lemonada', Arial, sans-serif; background-color: #f0f4f8; color: #333; padding: 40px 20px; border-radius: 10px; max-width: 600px; margin: auto;">
+      <div style="text-align: center; padding-bottom: 20px;">
+        <img src="https://i.ibb.co.com/cJvmZL6/Screenshot-2024-10-26-at-2-27-28-PM-removebg-preview-1.png" alt="Profit Link" style="width: 150px;"/>
       </div>
-      `
+      <h2 style="color: #02C2A7; text-align: center; font-size: 28px;">Hey, ${user.username}!</h2>
+      
+      <p style="font-size: 18px; line-height: 1.6; text-align: center; margin: 20px 0;">
+        Need a little help? No problem! If you've forgotten your password, click the link below to reset it and continue your journey with Profit Link.
+
+      </p>
+      
+      <div style="padding: 20px; background-color: #fff; border: 2px solid #02C2A7; border-radius: 8px; margin: 20px auto; max-width: 500px; text-align: center;">
+        <h3 style="color: #02C2A7; font-size: 24px; margin-bottom: 10px;">Reset Password Code</h3>
+      
+        <div style="padding: 15px 0; margin: 10px 0;">
+          <h3 style="color: #02C2A7; font-size: 32px; margin: 0; font-weight: bold; letter-spacing: 2px;">${resetCode}</h3>
+        </div>
+      </div>
+      
+      <p style="font-size: 18px; text-align: center; line-height: 1.6; margin: 20px 0;">
+        We’re here to support you every step of the way!
+
+
+      </p>
+
+      <div style="text-align: center; padding-top: 20px;">
+        <h3 style="color: #02C2A7; font-weight: bold; font-size: 24px; margin: 10px 0;">The Profit Link Team</h3>
+      </div>
+      
+      <div style="text-align: center; padding-top: 30px;">
+        <p style="font-size: 12px; color: #aaa;">© 2024 Profit Link. All rights reserved.</p>
+      </div>
+    </div>
+      `,
     };
 
     // Send the reset code

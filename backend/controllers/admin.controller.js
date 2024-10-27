@@ -9,22 +9,19 @@ const changeAdmin = async (req, res, next) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    console.log(email);
-
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     if (user.isAdmin) {
       return res.status(400).json({ message: "User is already an admin" });
     }
 
     user.isAdmin = true;
-
     await user.save();
     res.status(200).json({ message: "User is now an admin" });
+
   } catch (error) {
     next(error);
   }
